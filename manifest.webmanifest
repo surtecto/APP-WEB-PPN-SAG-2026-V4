@@ -1,0 +1,51 @@
+{
+ "name": "Asoleamiento Plan Norte · San Andrés de Giles",
+ "short_name": "Plan Norte",
+ "description": "Modelos 3D, asoleamiento, visuales y verificación de proyectos del Plan Particularizado Norte.",
+ "start_url": "./index.html",
+ "scope": "./",
+ "display": "standalone",
+ "orientation": "any",
+ "background_color": "#eef0ea",
+ "theme_color": "#2c4a6b",
+ "lang": "es-AR",
+ "icons": [
+  {
+   "src": "icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png",
+   "purpose": "any"
+  },
+  {
+   "src": "icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "any"
+  },
+  {
+   "src": "icon-maskable-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "maskable"
+  }
+ ],
+ "file_handlers": [
+  {
+   "action": "./index.html#proyecto",
+   "accept": {
+    "model/obj": [
+     ".obj"
+    ],
+    "model/vnd.collada+xml": [
+     ".dae"
+    ],
+    "model/gltf-binary": [
+     ".glb"
+    ],
+    "model/stl": [
+     ".stl"
+    ]
+   }
+  }
+ ]
+}

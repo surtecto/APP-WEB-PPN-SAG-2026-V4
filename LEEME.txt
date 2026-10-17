@@ -1,0 +1,40 @@
+PLAN NORTE · ASOLEAMIENTO — Aplicación web instalable (PWA)
+San Andrés de Giles · Dirección de Planeamiento y Obras Particulares
+
+QUÉ ES
+Una sola aplicación web que funciona sin conexión y se instala como programa de escritorio
+(Windows, macOS, Linux, ChromeOS) desde Microsoft Edge o Google Chrome. Incluye:
+  · Zonas del Plan: volúmenes de referencia de las láminas RN1–RN9 con el norte real,
+    mapas de horas de sol (también verano con arbolado), visuales, correspondencias entre
+    parcelas y las exigencias de cada ficha dibujadas al estilo de las fichas (retiros,
+    % edificación, área de correspondencias, altura, norte).
+  · Mi proyecto: carga de un proyecto (.dae de SketchUp, .obj, .glb, .stl), ubicación en el
+    lote tipo de la ficha (frente y superficie mínima) entre los vecinos de referencia y
+    verificación de las exigencias de la ficha 2026 (FOS, FOT, altura, retiros, 45°),
+    asoleamiento propio y de los vecinos, visuales, puntos críticos y recomendaciones.
+
+TRES FORMAS DE USARLA
+1) Abrir directamente (sin instalar): doble clic en index.html. Funciona sin internet.
+
+2) Instalar en esta computadora:
+   - Doble clic en "Instalar_en_esta_PC.bat" (necesita Python instalado).
+   - Se abre Edge/Chrome en http://localhost:8765. Hacer clic en el ícono "Instalar" de la
+     barra de direcciones (o en el botón "Instalar app" de la aplicación).
+   - Queda como programa con ícono propio en el menú Inicio y abre sin conexión aunque
+     se cierre la ventana negra del servidor.
+
+3) Publicarla en la web (para el equipo o la ciudadanía):
+   - Subir el contenido de esta carpeta a cualquier hosting estático con HTTPS:
+     servidor municipal, GitHub Pages o Netlify Drop (arrastrar la carpeta en
+     https://app.netlify.com/drop). Desde esa dirección, cualquier persona puede
+     usarla en el navegador e instalarla con el botón "Instalar".
+
+SKETCHUP
+El formato .skp es cerrado. Exportar desde SketchUp: Archivo → Exportar → Modelo 3D →
+COLLADA (.dae). En la app elegir unidades (metros) y "Y arriba". Modelar con el frente del
+lote hacia el eje −Y (abajo en planta) y el origen en la esquina izquierda de la línea
+municipal; luego ajustar con "Desde la izquierda" y "Desde la L.M.".
+
+ALCANCE
+Resultado orientativo para el estudio particularizado que exige el PPN. No reemplaza la
+verificación del legajo ni el estudio de asoleamiento firmado por el profesional.
