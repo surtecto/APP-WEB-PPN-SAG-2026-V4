@@ -4,6 +4,8 @@ San Andrés de Giles · Dirección de Planeamiento y Obras Particulares
 QUÉ ES
 Una sola aplicación web que funciona sin conexión y se instala como programa de escritorio
 (Windows, macOS, Linux, ChromeOS) desde Microsoft Edge o Google Chrome. Incluye:
+  · Introducción: presentación del Plan Particularizado Norte, sus nueve zonas, cifras,
+    principios y preguntas para el debate.
   · Zonas del Plan: volúmenes de referencia de las láminas RN1–RN9 con el norte real,
     mapas de horas de sol (también verano con arbolado), visuales, correspondencias entre
     parcelas y las exigencias de cada ficha dibujadas al estilo de las fichas (retiros,

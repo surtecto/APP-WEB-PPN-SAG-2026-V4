@@ -837,10 +837,80 @@ function panelProject() {
   renderResults();
 }
 
+
+// =============================================================== INTRODUCCIÓN
+function buildIntro() {
+  const zs = Object.entries(D.zones); const sup = zs.reduce((a, [, z]) => a + z.meta.sup, 0), lotes = zs.reduce((a, [, z]) => a + z.meta.lotes, 0);
+  const ink = css('--ink'), sunC = css('--sun'), mut = css('--muted'), fg = css('--fg'), line = css('--line'), ok = css('--ok'), alert = css('--alert');
+  // esquema: trama girada 44° respecto del norte real y arco solar de invierno
+  const cx = 170, cy = 170, rot = 44; let blocks = '';
+  for (let i = -2; i <= 2; i++) for (let j = -2; j <= 2; j++) { if (Math.abs(i) + Math.abs(j) > 3) continue; blocks += `<rect x="${cx - 21 + i * 50}" y="${cy - 16 + j * 40}" width="42" height="32" rx="2" fill="${css('--res')}" stroke="${line}"/>`; }
+  const svg = `<svg viewBox="0 0 340 340" role="img" aria-label="Esquema: la trama del Plan Norte está girada 44° respecto del norte real; en invierno el sol recorre el norte y las fachadas NE reciben unas 7 h, las SO menos de 1 h.">
+    <circle cx="${cx}" cy="${cy}" r="150" fill="none" stroke="${line}" stroke-dasharray="3 4"/>
+    <path d="M ${cx - 132} ${cy - 30} Q ${cx} ${cy - 250} ${cx + 132} ${cy - 30}" fill="none" stroke="${sunC}" stroke-width="2.5"/>
+    <circle cx="${cx}" cy="${cy - 140}" r="9" fill="${sunC}"/>
+    <text x="${cx + 16}" y="${cy - 142}" font-family="IBM Plex Mono,monospace" font-size="11" fill="${fg}">sol 21 jun · 32°</text>
+    <g transform="rotate(${rot} ${cx} ${cy})">${blocks}
+      <line x1="${cx - 120}" y1="${cy}" x2="${cx + 120}" y2="${cy}" stroke="${ink}" stroke-width="1.5" stroke-dasharray="6 4"/>
+      <text x="${cx + 60}" y="${cy - 5}" font-family="IBM Plex Mono,monospace" font-size="10" fill="${ink}" text-anchor="middle" paint-order="stroke" stroke="${css('--bg')}" stroke-width="4">Av. Scully 134°</text>
+    </g>
+    <g font-family="IBM Plex Mono,monospace" font-size="11.5" font-weight="600" paint-order="stroke" stroke="${css('--bg')}" stroke-width="4">
+      <text x="${cx}" y="16" text-anchor="middle" font-weight="700" fill="${fg}">N</text>
+      <line x1="${cx}" y1="22" x2="${cx}" y2="44" stroke="${fg}" stroke-width="1.5"/>
+      <text x="${cx + 92}" y="${cy - 58}" fill="${ok}">NE ≈ 7 h</text>
+      <text x="${cx - 128}" y="${cy + 92}" fill="${alert}">SO &lt; 1 h</text>
+      <text x="${cx - 160}" y="${cy - 70}" fill="${mut}">NO</text><text x="${cx + 120}" y="${cy + 110}" fill="${mut}">SE</text>
+    </g></svg>`;
+  const rows = zs.map(([k, z]) => { const m = z.meta; return `<tr tabindex="0" data-z="${k}"><td><b>${k}</b></td><td class="c">${esc(m.caracter)}</td><td class="num">${m.dens}</td><td class="num">${nf(m.fos, 2)} / ${nf(m.fot, 1)}</td><td>${m.alt}</td><td class="num">${m.frente} m · ${m.supmin.toLocaleString('es-AR')} m²</td><td class="num">${m.lotes}</td><td class="num">${m.sup.toLocaleString('es-AR')}</td></tr>`; }).join('');
+  $('#intro').innerHTML = `<div class="wrap">
+  <section class="hero">
+    <div>
+      <div class="kicker">San Andrés de Giles · Ordenanza PPN-2026 · Anexo I</div>
+      <h2>Plan Particularizado Norte</h2>
+      <p class="lede">Un fragmento de ciudad pensado antes de construirse: nueve zonas residenciales entre la Av. Lucas Scully, el Parque Municipal y el borde rural, donde cada parcela se diseña según su orientación, su relación con el vecino y su lugar en el paisaje pampeano.</p>
+      <p class="meta">Circ. II · Pc. 77, 78, 79, 79b, 79d y 79e · ${Math.abs(D.lat).toFixed(4)}° S, ${Math.abs(D.lon).toFixed(4)}° O<br>Plano Director PPN 01-2026 · Dirección de Planeamiento y Obras Particulares</p>
+      <div class="go"><button class="btn primary" data-go="plan">Recorrer las zonas en 3D</button><button class="btn" data-go="proj">Verificar mi proyecto</button></div>
+    </div>
+    <figure>${svg}<figcaption>La trama está girada 44° respecto del norte real. Ninguna fachada mira al norte puro: el 21 de junio la cara NE recibe unas 7 h de sol y la SO menos de 1 h.</figcaption></figure>
+  </section>
+  <div class="nums"><div><b>9</b><span>zonas residenciales</span></div><div><b>${lotes}</b><span>parcelas</span></div><div><b>${nf(sup / 10000, 1)} ha</b><span>superficie neta</span></div><div><b>120–700</b><span>hab/ha según zona</span></div></div>
+  <h3>Qué propone el Plan</h3>
+  <div class="cols">
+    <article><h4>Tejido según orientación</h4><p>Cada ficha fija ocupación, altura y retiros. En RN4, RN5 y RN9 los retiros cambian según el frente mire al norte o al sur: el fondo libre se agranda donde la sombra del vecino cae.</p></article>
+    <article><h4>Correspondencia entre vecinos</h4><p>Las áreas de correspondencia convierten el límite entre parcelas en un espacio de acuerdo: vegetación, vistas y sombras se negocian en lugar de imponerse desde la medianera.</p></article>
+    <article><h4>Sol y suelo como exigencia</h4><p>Cada proyecto presenta un estudio particularizado de asoleamiento de sus locales de primera categoría y de la sombra que proyecta sobre los linderos. El arbolado caduco y el suelo absorbente son parte de la norma.</p></article>
+  </div>
+  <h3>Las nueve zonas</h3>
+  <p class="note">Indicadores del Anexo I. Haga clic en una fila para verla en 3D.</p>
+  <div class="ztab"><table><thead><tr><th>Zona</th><th style="text-align:left">Carácter</th><th>hab/ha</th><th>FOS / FOT</th><th>Altura</th><th>Frente · sup. mín.</th><th>Parcelas</th><th>Sup. neta m²</th></tr></thead><tbody>${rows}</tbody></table></div>
+  <h3>Lo que muestra el análisis</h3>
+  <div class="prose"><p>Con el norte real y los volúmenes de referencia de las láminas, el suelo libre de las zonas bajas recibe entre 3,4 y 8,5 h de sol el 21 de junio. Los conflictos aparecen donde el volumen crece junto a un vecino más pequeño: las barras de RN7 le quitan entre 2,6 y 2,9 h a los patios de RN6, y la fila norte de RN9 le quita 2 h a la del sur. En las zonas de PB+1, la asimetría de fondos que fija la ficha mantiene esa pérdida por debajo de 1 h.</p></div>
+  <h3>Preguntas para el debate</h3>
+  <ul class="qs">
+    <li>¿Alcanza con regular cuánto se ocupa, o el Plan tiene que regular también dónde, cuando la peor sombra la produce una zona de baja ocupación?</li>
+    <li>Las láminas dibujan un patio en U, un pasaje verde, una franja compartida. ¿Deben pasar al texto como exigencias o quedar como imagen que cada proyecto interpreta?</li>
+    <li>Con veranos más largos, ¿el sol es todavía un bien a proteger, o el árbol pasa a ser la verdadera infraestructura climática del patio?</li>
+  </ul>
+  <h3>Cómo usar esta herramienta</h3>
+  <div class="cols">
+    <article><h4>Zonas del Plan</h4><p>Modelo 3D de cada zona con el sol real por fecha y hora, mapas de horas de sol, visuales y correspondencias, y las exigencias de la ficha dibujadas sobre el lote.</p></article>
+    <article><h4>Mi proyecto</h4><p>Cargue un modelo (.dae de SketchUp, .obj, .glb o .stl) y obtenga la verificación contra la ficha, el sol propio y el de los vecinos, con los puntos críticos marcados.</p></article>
+    <article><h4>Alcance</h4><p>Resultados orientativos para el debate y para el estudio particularizado. No reemplazan la verificación del legajo ni el estudio firmado por el profesional.</p></article>
+  </div>
+  <p class="src">Fuentes: Proyecto de Ordenanza y Anexo I PPN-2026 (fichas RN1–RN9); Plano Director PPN 01-2026; láminas SketchUp del PPN como referencia gráfica. Análisis: Arq. Juan Patricio Addesso – Dirección de Planeamiento y Obras Particulares, Municipio de San Andrés de Giles.</p>
+  </div>`;
+  $$('#intro [data-go]').forEach(b => b.onclick = () => setMode(b.dataset.go));
+  $$('#intro tr[data-z]').forEach(tr => { const go = () => { selectZone(tr.dataset.z); setMode('plan'); }; tr.onclick = go; tr.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } }; });
+}
+function selectZone(k) { zoneKey = k; zn.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x.textContent === k)); try { localStorage.setItem('ppn-zone', k); } catch (e) { } P.lotId = null; }
+
 // =============================================================== UI general
 function setLayer(l) { state.layer = l; $$('#layer button').forEach(x => x.setAttribute('aria-pressed', x.dataset.l === l)); applyLayer(); }
 function setMode(m) {
   mode = m; $$('#modes button').forEach(b => b.setAttribute('aria-pressed', b.dataset.m === m));
+  const intro = m === 'intro'; $('#intro').hidden = !intro; $('.stage').hidden = intro; $('#panel').hidden = intro; zn.hidden = intro;
+  try { localStorage.setItem('ppn-mode', m); } catch (e) { }
+  if (intro) { geoText(); buildIntro(); $('#intro').scrollTop = 0; return; }
   $$('.pl').forEach(e => e.hidden = m !== 'plan'); $$('.pj').forEach(e => e.hidden = m !== 'proj');
   if (m === 'plan' && ['reglas', 'proyecto'].includes(state.layer)) state.layer = 'live';
   if (m === 'proj' && (LAYER_T[state.layer] || state.layer === 'live')) state.layer = 'reglas';
@@ -850,7 +920,7 @@ function setMode(m) {
 }
 function rebuild() { if (mode === 'plan') buildPlan(); else buildProject(); }
 const zn = $('#zones');
-Object.keys(D.zones).forEach(k => { const b = document.createElement('button'); b.textContent = k; b.setAttribute('aria-pressed', k === zoneKey); b.onclick = () => { zoneKey = k; zn.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b)); try { localStorage.setItem('ppn-zone', k); } catch (e) { } P.lotId = null; rebuild(); }; zn.appendChild(b); });
+Object.keys(D.zones).forEach(k => { const b = document.createElement('button'); b.textContent = k; b.setAttribute('aria-pressed', k === zoneKey); b.onclick = () => { selectZone(k); rebuild(); }; zn.appendChild(b); });
 try { const s = localStorage.getItem('ppn-zone'); if (s && D.zones[s]) { zoneKey = s; zn.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x.textContent === s)); } } catch (e) { }
 $$('#modes button').forEach(b => b.onclick = () => setMode(b.dataset.m));
 $$('#presets button').forEach(b => b.onclick = () => { state.day = +b.dataset.d; $('#day').value = state.day; $$('#presets button').forEach(x => x.setAttribute('aria-pressed', x === b)); updateSun(); });
@@ -874,11 +944,11 @@ function loop(t) {
   if (anim) { anim.t = Math.min(1, anim.t + dt * 1.6); const k = anim.t * anim.t * (3 - 2 * anim.t); controls.target.lerpVectors(anim.from, anim.to, k); camera.position.lerpVectors(anim.cfrom, anim.cto, k); if (anim.t >= 1) anim = null; }
   controls.update(); renderer.render(scene, camera); requestAnimationFrame(loop);
 }
-new MutationObserver(() => rebuild()).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => rebuild());
+new MutationObserver(() => mode === 'intro' ? buildIntro() : rebuild()).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => mode === 'intro' ? buildIntro() : rebuild());
 let deferred = null;
 window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferred = e; const b = $('#install'); if (b) b.hidden = false; });
 if ($('#install')) $('#install').onclick = async () => { if (!deferred) return; deferred.prompt(); await deferred.userChoice; deferred = null; $('#install').hidden = true; };
-let startMode = 'plan'; try { if (location.hash === '#proyecto' || localStorage.getItem('ppn-mode') === 'proj') startMode = 'proj'; } catch (e) { }
+let startMode = 'intro'; try { const sm = localStorage.getItem('ppn-mode'); if (location.hash === '#proyecto') startMode = 'proj'; else if (location.hash === '#zonas') startMode = 'plan'; else if (sm === 'plan' || sm === 'proj') startMode = sm; } catch (e) { }
 setMode(startMode); resize(); requestAnimationFrame(loop);
 window.__ppn = { P, camera, controls, state, updateSun, decodeMap: k => decodeMap(k), analyze, exampleModel, setMode, loadFile, get Z() { return Z; } };

@@ -131,6 +131,41 @@ summary{cursor:pointer;font-family:var(--f-display);font-size:16px}
 .kv{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;font-size:12.5px}
 .kv dt{color:var(--muted)} .kv dd{margin:0;font-family:var(--f-data)}
 .hint{font-size:12px;color:var(--muted);background:var(--bg);border:1px solid var(--line);border-radius:3px;padding:6px 8px}
+
+[hidden]{display:none!important}
+/* ---------- introducción */
+.intro{grid-column:1/-1;overflow:auto;min-height:0;background:var(--bg)}
+.intro .wrap{max-width:1080px;margin:0 auto;padding:28px max(16px,env(safe-area-inset-left,0px)) 56px}
+.intro .hero{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:28px;align-items:center;border-bottom:1px solid var(--line);padding-bottom:26px}
+.intro .kicker{font-family:var(--f-data);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.intro h2{font-size:clamp(30px,4.4vw,48px);line-height:1.04;margin:8px 0 12px;text-wrap:balance}
+.intro .lede{font-size:17px;line-height:1.55;max-width:58ch;margin:0 0 14px}
+.intro .meta{font-family:var(--f-data);font-size:12px;color:var(--muted);line-height:1.6}
+.intro figure{margin:0}
+.intro figure svg{width:100%;height:auto;display:block}
+.intro figcaption{font-size:12px;color:var(--muted);margin-top:6px}
+.intro .nums{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:3px;overflow:hidden;margin:26px 0}
+.intro .nums div{background:var(--panel);padding:12px 14px}
+.intro .nums b{display:block;font-family:var(--f-display);font-size:30px;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums;line-height:1.1}
+.intro .nums span{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.intro h3{font-size:22px;margin:34px 0 10px}
+.intro .cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.intro .cols article{border-top:3px solid var(--ink);padding-top:10px}
+.intro .cols article:nth-child(2){border-color:var(--sun)} .intro .cols article:nth-child(3){border-color:var(--ok)}
+.intro .cols h4{font-family:var(--f-display);font-size:17px;margin:0 0 6px}
+.intro .cols p,.intro .prose p{margin:0 0 8px;line-height:1.55}
+.intro .prose{max-width:70ch}
+.intro .ztab{overflow-x:auto}
+.intro .ztab table td,.intro .ztab table th{padding:6px 8px}
+.intro .ztab tbody tr{cursor:pointer}
+.intro .ztab tbody tr:hover,.intro .ztab tbody tr:focus-visible{background:var(--panel);outline:none}
+.intro .ztab td.num{white-space:nowrap}
+.intro .ztab td.c{text-align:left;color:var(--muted);font-size:12.5px;min-width:220px}
+.intro .qs{list-style:none;padding:0;margin:0;display:grid;gap:12px}
+.intro .qs li{font-family:var(--f-display);font-style:italic;font-size:17px;line-height:1.45;border-left:3px solid var(--sun);padding:2px 0 2px 12px}
+.intro .go{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.intro .src{font-size:12px;color:var(--muted);margin-top:30px;border-top:1px solid var(--line);padding-top:10px}
+@media (max-width:860px){.intro .hero,.intro .cols{grid-template-columns:1fr}.intro .nums{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style>
 <div class="app">
 <header>
@@ -140,7 +175,7 @@ summary{cursor:pointer;font-family:var(--f-display);font-size:16px}
   </div>
   <div class="headtools">
     <div class="modes" id="modes" role="tablist" aria-label="Modo">
-      <button data-m="plan" aria-pressed="true">Zonas del Plan</button><button data-m="proj" aria-pressed="false">Mi proyecto</button>
+      <button data-m="intro" aria-pressed="false">Introducción</button><button data-m="plan" aria-pressed="true">Zonas del Plan</button><button data-m="proj" aria-pressed="false">Mi proyecto</button>
     </div>
     <nav class="zones" id="zones" aria-label="Zonas"></nav>
     __INSTALL__
@@ -190,6 +225,7 @@ summary{cursor:pointer;font-family:var(--f-display);font-size:16px}
   </div>
 </section>
 <aside id="panel" aria-live="polite"></aside>
+<main id="intro" class="intro" hidden></main>
 </div>
 <script type="application/json" id="data">__DATA__</script>
 __SCRIPTS__
