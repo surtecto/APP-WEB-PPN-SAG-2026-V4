@@ -949,6 +949,7 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () 
 let deferred = null;
 window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferred = e; const b = $('#install'); if (b) b.hidden = false; });
 if ($('#install')) $('#install').onclick = async () => { if (!deferred) return; deferred.prompt(); await deferred.userChoice; deferred = null; $('#install').hidden = true; };
-let startMode = 'intro'; try { const sm = localStorage.getItem('ppn-mode'); if (location.hash === '#proyecto') startMode = 'proj'; else if (location.hash === '#zonas') startMode = 'plan'; else if (sm === 'plan' || sm === 'proj') startMode = sm; } catch (e) { }
+let startMode = 'intro'; // siempre abre en la Introducción (salvo enlace directo #zonas o #proyecto)
+if (location.hash === '#proyecto') startMode = 'proj'; else if (location.hash === '#zonas') startMode = 'plan';
 setMode(startMode); resize(); requestAnimationFrame(loop);
 window.__ppn = { P, camera, controls, state, updateSun, decodeMap: k => decodeMap(k), analyze, exampleModel, setMode, loadFile, get Z() { return Z; } };
